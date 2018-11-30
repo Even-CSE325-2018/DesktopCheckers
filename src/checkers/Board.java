@@ -29,8 +29,8 @@ public class Board extends JFrame
    private JPanel Data = new JPanel() ;
    private JLabel p1 = new JLabel("PLAYER 1") ;
    private JLabel p2 = new JLabel("PLAYER 2") ; 
-   private JLabel[] RedChecker = new JLabel[8] ;
-   private JLabel[] WhiteChecker = new JLabel[8] ; 
+   private JLabel[] RedChecker = new Piece[8] ;
+   private JLabel[] WhiteChecker = new Piece[8] ; 
   
    private ImageIcon RedIcon ;
    private ImageIcon WhiteIcon ;
@@ -93,7 +93,7 @@ public class Board extends JFrame
                 {
                     j+=1 ; 
                 }
-                RedChecker[j] = new JLabel();
+                RedChecker[j] = new Piece();
                 // Resizing the Buffred image to fit into the pannel 
                 Image scaledImage = Redimg.getScaledInstance(Tiles[i][j].getWidth(),Tiles[i][j].getHeight(),Image.SCALE_SMOOTH);
                 RedIcon = new ImageIcon(scaledImage) ;
@@ -112,7 +112,7 @@ public class Board extends JFrame
                 {
                     j+=1 ; 
                 }
-                WhiteChecker[j] = new JLabel();
+                WhiteChecker[j] = new Piece();
                 Image scaledImage = Whiteimg.getScaledInstance(Tiles[i][j].getWidth(),Tiles[i][j].getHeight(),Image.SCALE_SMOOTH);
                 WhiteIcon = new ImageIcon(scaledImage) ;
                 WhiteChecker[j].setIcon(WhiteIcon);
