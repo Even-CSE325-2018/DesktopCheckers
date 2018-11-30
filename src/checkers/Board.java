@@ -137,8 +137,8 @@ public class Board extends JFrame
         {
             for (int j = 0; j < 8; j++) 
             {
-                final int currRow = i;
-                final int currCol = j;
+                 int currRow = i;
+                 int currCol = j;
                 Tiles[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
@@ -162,21 +162,25 @@ public class Board extends JFrame
                             System.out.println("p : " + i + " is selected");
                             System.out.println("p pos : " + p.getI() + ", " + p.getJ());
                         }
-                        /*if(p.selected) {
+                        if(p.isSelected()) {
+                             Tiles[p.getI()][p.getJ()].remove(p);
+                             Tiles[p.getI()][p.getJ()].repaint();
                             System.out.println("Current piece is : " + 
                                     i);
                             if(p.isValidMove(currRow, currCol)) {
                                 System.out.println("Valid");
-                                p.move(currRow, currCol);
+                                p.movePiece(currRow, currCol);
+                                
                                 System.out.println("Piece selected val : " + 
-                                        p.selected);
+                                        p.isSelected());
                                 RedChecker[i].setIcon(RedIcon);
                                 Tiles[currRow][currCol].add(RedChecker[i]);
                                 Tiles[currRow][currCol].repaint();
-                                initFlag[i][j]  = true;
+                               
+                                //initFlag[i][j]  = true;
                                 break;
                             }
-                        }*/
+                        }
                     }
                 }
             });

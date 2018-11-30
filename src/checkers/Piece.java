@@ -54,8 +54,8 @@ public class Piece extends JLabel{
     public Piece(int i , int j) {
         this.i = i;
         this.j = j;
-        final int row = this.i;
-        final int col = this.j;
+         int row = this.i;
+         int col = this.j;
         selected = false;
         crowned = false;
         addMouseListener(new MouseAdapter() {
@@ -88,7 +88,7 @@ public class Piece extends JLabel{
         return false;
     }
     
-    public void move(int newI, int newJ) {
+    public void movePiece(int newI, int newJ) {
         this.i = newI;
         this.j = newJ;
         unSelect();
