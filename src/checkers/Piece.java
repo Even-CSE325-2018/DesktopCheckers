@@ -18,6 +18,7 @@ public class Piece extends JLabel{
     private boolean crowned;
     private int i;
     private int j;
+    private boolean white = false;
 
     public void setSelected(boolean selected) {
         this.selected = selected;
@@ -51,9 +52,10 @@ public class Piece extends JLabel{
         return j;
     }
 
-    public Piece(int i , int j) {
+    public Piece(int i , int j, boolean isWhite) {
         this.i = i;
         this.j = j;
+        this.white = isWhite;
          int row = this.i;
          int col = this.j;
         selected = false;
@@ -73,9 +75,7 @@ public class Piece extends JLabel{
     }
     
     public boolean isValidMove(int newI, int newJ) {
-        System.out.println("i : " + this.i + ", j: " + this.j);
-        System.out.println("newI : " + newI + ", j : " + newJ);
-        if(newI == i - 1 && newJ == j - 1) {
+        /*if(newI == i - 1 && newJ == j - 1) {
             return true;
         } else if(newI == i - 1 && newJ == j + 1) {
             return true;
@@ -83,6 +83,34 @@ public class Piece extends JLabel{
             return true;
         } else if(newI == i + 1 && newJ == j + 1) {
             return true;
+        }*/
+        
+        if(!white) {
+            if(newI == i + 1 && newJ == j - 1) {
+                return true;
+            } else if(newI == i + 1 && newJ == j + 1) {
+                return true;
+            }
+        } else {
+            if(newI == i - 1 && newJ == j - 1) {
+                return true;
+            } else if(newI == i - 1 && newJ == j + 1) {
+                return true;
+            }
+        }
+        
+        if(crowned && !white) {
+            if(newI == i - 1 && newJ == j - 1) {
+                return true;
+            } else if(newI == i - 1 && newJ == j + 1) {
+                return true;
+            }
+        } else if(crowned && white) {
+            if(newI == i + 1 && newJ == j - 1) {
+                return true;
+            } else if(newI == i + 1 && newJ == j + 1) {
+                return true;
+            }
         }
         
         return false;

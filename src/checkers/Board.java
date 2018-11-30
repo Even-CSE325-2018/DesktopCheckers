@@ -34,7 +34,8 @@ public class Board extends JFrame
   
    private ImageIcon RedIcon ;
    private ImageIcon WhiteIcon ;
-   private boolean[][] initFlag = new boolean[8][8] ; // Array of boolean for each pannel to see if it has a checker or no    
+   private boolean[][] initFlag = new boolean[8][8] ; // Array of boolean for each pannel to see if it has a checker or no 
+    private int playerTurn = 0;
     
     public Board() 
     {
@@ -97,9 +98,8 @@ public class Board extends JFrame
                     j+=1 ; 
                 }
                 
-                RedChecker[pieceCounter] = new Piece(i,j);
+                RedChecker[pieceCounter] = new Piece(i,j, false);
                 Piece p = (Piece) RedChecker[pieceCounter];
-                System.out.println("Piece " + pieceCounter + ", at pos: " + p.getI() + " " + p.getJ());
                 // Resizing the Buffred image to fit into the pannel 
                 Image scaledImage = Redimg.getScaledInstance(Tiles[i][j].getWidth(),Tiles[i][j].getHeight(),Image.SCALE_SMOOTH);
                 RedIcon = new ImageIcon(scaledImage) ;
@@ -123,13 +123,14 @@ public class Board extends JFrame
                 {
                     j+=1 ; 
                 }
-                WhiteChecker[pieceCounter] = new Piece(i,j);
+                WhiteChecker[pieceCounter] = new Piece(i,j, true);
                 Image scaledImage = Whiteimg.getScaledInstance(Tiles[i][j].getWidth(),Tiles[i][j].getHeight(),Image.SCALE_SMOOTH);
                 WhiteIcon = new ImageIcon(scaledImage) ;
                 WhiteChecker[pieceCounter].setIcon(WhiteIcon);
                 Tiles[i][j].add(WhiteChecker[pieceCounter]) ;
                 Tiles[i][j].repaint();  
-                initFlag[i][j]  = true; 
+                initFlag[i][j]  = true;
+                pieceCounter++;
             } 
         }
          
@@ -154,6 +155,7 @@ public class Board extends JFrame
                 public void mouseClicked(MouseEvent e) {
                     System.out.println("I'm in mouseClicked at panel : " + 
                             currRow + " " + currCol);
+                    if(playerTurn == 0){
                     for(int i = 0; i < 12; i++) {
                         Piece p = (Piece) RedChecker[i];
 //                        System.out.println("piece : " + i + " at : " + p.i 
@@ -163,11 +165,11 @@ public class Board extends JFrame
                             System.out.println("p pos : " + p.getI() + ", " + p.getJ());
                         }
                         if(p.isSelected()) {
+                            if(p.isValidMove(currRow, currCol)) {
                              Tiles[p.getI()][p.getJ()].remove(p);
                              Tiles[p.getI()][p.getJ()].repaint();
                             System.out.println("Current piece is : " + 
                                     i);
-                            if(p.isValidMove(currRow, currCol)) {
                                 System.out.println("Valid");
                                 p.movePiece(currRow, currCol);
                                 
@@ -177,12 +179,48 @@ public class Board extends JFrame
                                 Tiles[currRow][currCol].add(RedChecker[i]);
                                 Tiles[currRow][currCol].repaint();
                                
-                                //initFlag[i][j]  = true;
+                                initFlag[currRow][currCol]  = true;
+                                playerTurn = 1;
+                                break;
+                            } else {
+                                
+                            }
+                        }
+                    }} else {
+                    for(int i = 0; i < 12; i++) {
+                        Piece p = (Piece) WhiteChecker[i];
+//                        System.out.println("piece : " + i + " at : " + p.i 
+//                                + ", " + p.j);
+                        if(p.isSelected()) {
+                            System.out.println("p : " + i + " is selected");
+                            System.out.println("p pos : " + p.getI() + ", " + p.getJ());
+                        }
+                        if(p.isSelected()) {
+                            if(p.isValidMove(currRow, currCol)) {
+                             Tiles[p.getI()][p.getJ()].remove(p);
+                             Tiles[p.getI()][p.getJ()].repaint();
+                            System.out.println("Current piece is : " + 
+                                    i);
+                                System.out.println("Valid");
+                                p.movePiece(currRow, currCol);
+                                
+                                System.out.println("Piece selected val : " + 
+                                        p.isSelected());
+                                WhiteChecker[i].setIcon(WhiteIcon);
+                                Tiles[currRow][currCol].add(WhiteChecker[i]);
+                                Tiles[currRow][currCol].repaint();
+                               
+                                initFlag[currRow][currCol]  = true;
+                                playerTurn = 0;
                                 break;
                             }
                         }
+                        
+                        
                     }
-                }
+                }}
+                
+                
             });
                 c.add(Tiles[i][j]) ; 
             }
