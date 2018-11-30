@@ -93,11 +93,12 @@ public class Board extends JFrame
                 {
                     j+=1 ; 
                 }
-                RedChecker[j] = new Piece();
+                RedChecker[j] = new Piece(i,j);
                 // Resizing the Buffred image to fit into the pannel 
                 Image scaledImage = Redimg.getScaledInstance(Tiles[i][j].getWidth(),Tiles[i][j].getHeight(),Image.SCALE_SMOOTH);
                 RedIcon = new ImageIcon(scaledImage) ;
-                RedChecker[j].setIcon(RedIcon); // Seting the label to the resized image 
+                RedChecker[j].setIcon(RedIcon);
+                // Seting the label to the resized image 
                 Tiles[i][j].add(RedChecker[j]) ; // Adding the label to the pannel 
                 Tiles[i][j].repaint(); 
                 initFlag[i][j]  = true ; 
@@ -112,7 +113,7 @@ public class Board extends JFrame
                 {
                     j+=1 ; 
                 }
-                WhiteChecker[j] = new Piece();
+                WhiteChecker[j] = new Piece(i,j);
                 Image scaledImage = Whiteimg.getScaledInstance(Tiles[i][j].getWidth(),Tiles[i][j].getHeight(),Image.SCALE_SMOOTH);
                 WhiteIcon = new ImageIcon(scaledImage) ;
                 WhiteChecker[j].setIcon(WhiteIcon);

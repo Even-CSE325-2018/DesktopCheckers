@@ -4,6 +4,10 @@
  * and open the template in the editor.
  */
 package checkers;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JLabel;
 /**
  *
@@ -12,4 +16,21 @@ import javax.swing.JLabel;
 public class Piece extends JLabel{
     boolean selected;
     boolean crowned;
+    int i;
+    int j;
+
+    public Piece(int i , int j) {
+        selected = false;
+        crowned = false;
+      addMouseListener(new MouseAdapter() {
+      public void mouseClicked(MouseEvent me) {
+        selected = true;
+      }
+    });
+    }
+
+    public void unSelect() {
+        this.selected = false;
+    }
+    
 }
