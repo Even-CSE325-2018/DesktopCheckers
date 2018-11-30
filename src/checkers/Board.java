@@ -29,8 +29,8 @@ public class Board extends JFrame
    private JPanel Data = new JPanel() ;
    private JLabel p1 = new JLabel("PLAYER 1") ;
    private JLabel p2 = new JLabel("PLAYER 2") ; 
-   private JLabel[] RedChecker = new Piece[8] ;
-   private JLabel[] WhiteChecker = new Piece[8] ; 
+   private JLabel[] RedChecker = new Piece[12] ;
+   private JLabel[] WhiteChecker = new Piece[12] ; 
   
    private ImageIcon RedIcon ;
    private ImageIcon WhiteIcon ;
@@ -85,7 +85,10 @@ public class Board extends JFrame
                 i = -1;
             }
         }
-         for (int i = 0; i < 3; i++) 
+        
+        int pieceCounter = 0;
+        
+        for (int i = 0; i < 3; i++) 
         {
             for (int j = 0; j < 8; j+=2) 
             {
@@ -93,19 +96,26 @@ public class Board extends JFrame
                 {
                     j+=1 ; 
                 }
-                RedChecker[j] = new Piece(i,j);
+                
+                RedChecker[pieceCounter] = new Piece(i,j);
+                Piece p = (Piece) RedChecker[pieceCounter];
+                System.out.println("Piece " + pieceCounter + ", at pos: " + p.getI() + " " + p.getJ());
                 // Resizing the Buffred image to fit into the pannel 
                 Image scaledImage = Redimg.getScaledInstance(Tiles[i][j].getWidth(),Tiles[i][j].getHeight(),Image.SCALE_SMOOTH);
                 RedIcon = new ImageIcon(scaledImage) ;
-                RedChecker[j].setIcon(RedIcon);
+                RedChecker[pieceCounter].setIcon(RedIcon);
                 // Seting the label to the resized image 
-                Tiles[i][j].add(RedChecker[j]) ; // Adding the label to the pannel 
+                Tiles[i][j].add(RedChecker[pieceCounter]) ; // Adding the label to the pannel 
                 Tiles[i][j].repaint(); 
-                initFlag[i][j]  = true ; 
+                initFlag[i][j]  = true;
+                pieceCounter++;
             }
-            
+
         }
-         for (int i = 5; i < 8; i++) 
+        
+        pieceCounter = 0;
+        
+        for (int i = 5; i < 8; i++) 
         {
             for (int j = 0; j < 8; j+=2) 
             {
@@ -113,51 +123,61 @@ public class Board extends JFrame
                 {
                     j+=1 ; 
                 }
-                WhiteChecker[j] = new Piece(i,j);
+                WhiteChecker[pieceCounter] = new Piece(i,j);
                 Image scaledImage = Whiteimg.getScaledInstance(Tiles[i][j].getWidth(),Tiles[i][j].getHeight(),Image.SCALE_SMOOTH);
                 WhiteIcon = new ImageIcon(scaledImage) ;
-                WhiteChecker[j].setIcon(WhiteIcon);
-                Tiles[i][j].add(WhiteChecker[j]) ;
+                WhiteChecker[pieceCounter].setIcon(WhiteIcon);
+                Tiles[i][j].add(WhiteChecker[pieceCounter]) ;
                 Tiles[i][j].repaint();  
-                initFlag[i][j]  = true ; 
+                initFlag[i][j]  = true; 
             } 
         }
          
-         for (int i = 0; i <8; i++) 
+        for (int i = 0; i <8; i++) 
         {
             for (int j = 0; j < 8; j++) 
             {
+                final int currRow = i;
+                final int currCol = j;
                 Tiles[i][j].addMouseListener(new MouseAdapter() {
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    for (int k = 0; k < 8; k++)
-                    {
-                        for (int l = 0; l < 8; l++) 
-                        {
-                             if(initFlag[k][l])
-                            {
-                             // Tiles[k][l].removeAll(); 
-                              initFlag[k][l]  = false ;
-                              break ; 
-                            }
-                             else 
-                             {
-                               // Image scaledImage = Redimg.getScaledInstance(Tiles[k][l].getWidth(),Tiles[k][l].getHeight(),Image.SCALE_SMOOTH);
-                               // RedIcon = new ImageIcon(scaledImage) ;
-                                RedChecker[l].setIcon(RedIcon);
-                                Tiles[k][l].add(RedChecker[l]) ;
-                                Tiles[k][l].repaint(); 
-                                initFlag[k][l]  = true ; 
-                             }
-                        }
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        
                     }
-                   
-                    repaint();
-                }
-
+                
                 @Override
                 public void mouseReleased(MouseEvent e) {
                    
+                }
+                
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    System.out.println("I'm in mouseClicked at panel : " + 
+                            currRow + " " + currCol);
+                    for(int i = 0; i < 12; i++) {
+                        Piece p = (Piece) RedChecker[i];
+//                        System.out.println("piece : " + i + " at : " + p.i 
+//                                + ", " + p.j);
+                        if(p.isSelected()) {
+                            System.out.println("p : " + i + " is selected");
+                            System.out.println("p pos : " + p.getI() + ", " + p.getJ());
+                        }
+                        /*if(p.selected) {
+                            System.out.println("Current piece is : " + 
+                                    i);
+                            if(p.isValidMove(currRow, currCol)) {
+                                System.out.println("Valid");
+                                p.move(currRow, currCol);
+                                System.out.println("Piece selected val : " + 
+                                        p.selected);
+                                RedChecker[i].setIcon(RedIcon);
+                                Tiles[currRow][currCol].add(RedChecker[i]);
+                                Tiles[currRow][currCol].repaint();
+                                initFlag[i][j]  = true;
+                                break;
+                            }
+                        }*/
+                    }
                 }
             });
                 c.add(Tiles[i][j]) ; 
