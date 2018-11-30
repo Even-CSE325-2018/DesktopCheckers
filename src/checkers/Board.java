@@ -129,7 +129,8 @@ public class Board extends JFrame
                 WhiteChecker[pieceCounter].setIcon(WhiteIcon);
                 Tiles[i][j].add(WhiteChecker[pieceCounter]) ;
                 Tiles[i][j].repaint();  
-                initFlag[i][j]  = true; 
+                initFlag[i][j]  = true;
+                pieceCounter++;
             } 
         }
          
