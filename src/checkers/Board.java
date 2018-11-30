@@ -89,7 +89,7 @@ public class Board extends JFrame
         {
             for (int j = 0; j < 8; j+=2) 
             {
-                if (i==1)
+                if ((i==0 || i ==2) && j==0)
                 {
                     j+=1 ; 
                 }
@@ -108,7 +108,7 @@ public class Board extends JFrame
         {
             for (int j = 0; j < 8; j+=2) 
             {
-                if (i==6)
+                if ((i==6) && j ==0)
                 {
                     j+=1 ; 
                 }
