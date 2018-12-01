@@ -19,6 +19,7 @@ public class Piece extends JLabel{
     private int i;
     private int j;
     private boolean white = false;
+    private Piece p;
 
     public void setSelected(boolean selected) {
         this.selected = selected;
@@ -60,12 +61,21 @@ public class Piece extends JLabel{
          int col = this.j;
         selected = false;
         crowned = false;
+        p = this ;
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
                 System.out.println("selected :-");
                 selected = true;
                 System.out.println(selected);
                 System.out.println("fel listener ba2a : " + row + ", " + col);
+                for (int i=0;i<12 ; i++){
+                    if (Board.RedChecker[i] != p && Board.RedChecker[i].selected == true){
+                        Board.RedChecker[i].selected = false;
+                    }
+                    if (Board.WhiteChecker[i] != p && Board.WhiteChecker[i].selected == true){
+                        Board.WhiteChecker[i].selected = false;
+                    }
+                }
             }
         });
     }
@@ -85,17 +95,33 @@ public class Piece extends JLabel{
             return true;
         }*/
         
-        if(!white) {
+        if(!white) {        //red checker
             if(newI == i + 1 && newJ == j - 1) {
                 return true;
             } else if(newI == i + 1 && newJ == j + 1) {
                 return true;
+            } else if(newI == i + 2 && newJ == j - 2) {
+                if(Board.initFlag[i + 1][j - 1]) {
+                    return true;
+                }
+            } else if(newI == i + 2 && newJ == j + 2) {
+                if(Board.initFlag[i + 1][j + 1]) {
+                    return true;
+                }
             }
-        } else {
+        } else {            //white checker
             if(newI == i - 1 && newJ == j - 1) {
                 return true;
             } else if(newI == i - 1 && newJ == j + 1) {
                 return true;
+            } else if(newI == i - 2 && newJ == j - 2) {
+                if(Board.initFlag[i - 1][j - 1]) {
+                    return true;
+                }
+            } else if(newI == i - 2 && newJ == j + 2) {
+                if(Board.initFlag[i - 1][j + 1]) {
+                    return true;
+                }
             }
         }
         
@@ -120,5 +146,13 @@ public class Piece extends JLabel{
         this.i = newI;
         this.j = newJ;
         unSelect();
+        if(this.white == true && this.i ==0 )
+        {
+            crowned = true;
+        }
+        else if (this.white == false && this.i ==7)
+        {
+            crowned = true;
+        }
     }
 }

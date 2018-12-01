@@ -29,12 +29,12 @@ public class Board extends JFrame
    private JPanel Data = new JPanel() ;
    private JLabel p1 = new JLabel("PLAYER 1") ;
    private JLabel p2 = new JLabel("PLAYER 2") ; 
-   private JLabel[] RedChecker = new Piece[12] ;
-   private JLabel[] WhiteChecker = new Piece[12] ; 
+   static Piece[] RedChecker = new Piece[12] ;
+   static Piece[] WhiteChecker = new Piece[12] ; 
   
    private ImageIcon RedIcon ;
    private ImageIcon WhiteIcon ;
-   private boolean[][] initFlag = new boolean[8][8] ; // Array of boolean for each pannel to see if it has a checker or no 
+   static boolean[][] initFlag = new boolean[8][8] ; // Array of boolean for each pannel to see if it has a checker or no 
     private int playerTurn = 0;
     
     public Board() 
@@ -168,6 +168,16 @@ public class Board extends JFrame
                             if(p.isValidMove(currRow, currCol)) {
                              Tiles[p.getI()][p.getJ()].remove(p);
                              Tiles[p.getI()][p.getJ()].repaint();
+                             
+                             if ((currRow - p.getI())==2 && (currCol - p.getJ())==2){
+                             Piece opponent = (Piece)Tiles[p.getI()+1][p.getJ()+1].getComponent(0);
+                             Tiles[p.getI()+1][p.getJ()+1].remove(opponent);
+                             Tiles[p.getI()+1][p.getJ()+1].repaint();
+                             } else if ((currRow - p.getI())==2 && (currCol - p.getJ())==-2){
+                             Piece opponent = (Piece)Tiles[p.getI()+1][p.getJ()-1].getComponent(0);
+                             Tiles[p.getI()+1][p.getJ()-1].remove(opponent);
+                             Tiles[p.getI()+1][p.getJ()-1].repaint();
+                             }
                             System.out.println("Current piece is : " + 
                                     i);
                                 System.out.println("Valid");
@@ -179,8 +189,11 @@ public class Board extends JFrame
                                 Tiles[currRow][currCol].add(RedChecker[i]);
                                 Tiles[currRow][currCol].repaint();
                                
+                                
+                                
                                 initFlag[currRow][currCol]  = true;
                                 playerTurn = 1;
+                                p1.setText("PLAYER 2");
                                 break;
                             } else {
                                 
@@ -199,6 +212,17 @@ public class Board extends JFrame
                             if(p.isValidMove(currRow, currCol)) {
                              Tiles[p.getI()][p.getJ()].remove(p);
                              Tiles[p.getI()][p.getJ()].repaint();
+                             
+                             if ((currRow - p.getI())==-2 && (currCol - p.getJ())==2){
+                             Piece opponent = (Piece)Tiles[p.getI()-1][p.getJ()+1].getComponent(0);
+                             Tiles[p.getI()-1][p.getJ()+1].remove(opponent);
+                             Tiles[p.getI()-1][p.getJ()+1].repaint();
+                             } else if ((currRow - p.getI())==-2 && (currCol - p.getJ())==-2){
+                             Piece opponent = (Piece)Tiles[p.getI()-1][p.getJ()-1].getComponent(0);
+                             Tiles[p.getI()-1][p.getJ()-1].remove(opponent);
+                             Tiles[p.getI()-1][p.getJ()-1].repaint();
+                             }
+                             
                             System.out.println("Current piece is : " + 
                                     i);
                                 System.out.println("Valid");
@@ -212,6 +236,7 @@ public class Board extends JFrame
                                
                                 initFlag[currRow][currCol]  = true;
                                 playerTurn = 0;
+                                p1.setText("PLAYER 1");
                                 break;
                             }
                         }
