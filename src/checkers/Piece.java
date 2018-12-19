@@ -125,17 +125,35 @@ public class Piece extends JLabel{
             }
         }
         
+        //Red Crown
         if(crowned && !white) {
             if(newI == i - 1 && newJ == j - 1) {
                 return true;
             } else if(newI == i - 1 && newJ == j + 1) {
                 return true;
+            } else if(newI == i - 2 && newJ == j - 2) {
+                if(Board.initFlag[i - 1][j - 1]) {
+                    return true;
+                }
+            } else if(newI == i - 2 && newJ == j + 2) {
+                if(Board.initFlag[i - 1][j + 1]) {
+                    return true;
+                }
             }
+            
         } else if(crowned && white) {
             if(newI == i + 1 && newJ == j - 1) {
                 return true;
             } else if(newI == i + 1 && newJ == j + 1) {
                 return true;
+            } else if(newI == i + 2 && newJ == j - 2) {
+                if(Board.initFlag[i + 1][j - 1]) {
+                    return true;
+                }
+            } else if(newI == i + 2 && newJ == j + 2) {
+                if(Board.initFlag[i + 1][j + 1]) {
+                    return true;
+                }
             }
         }
         

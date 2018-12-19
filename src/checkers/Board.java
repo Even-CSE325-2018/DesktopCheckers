@@ -168,15 +168,28 @@ public class Board extends JFrame
                             if(p.isValidMove(currRow, currCol)) {
                              Tiles[p.getI()][p.getJ()].remove(p);
                              Tiles[p.getI()][p.getJ()].repaint();
+                             initFlag[p.getI()][p.getJ()] = false;
                              
                              if ((currRow - p.getI())==2 && (currCol - p.getJ())==2){
                              Piece opponent = (Piece)Tiles[p.getI()+1][p.getJ()+1].getComponent(0);
                              Tiles[p.getI()+1][p.getJ()+1].remove(opponent);
                              Tiles[p.getI()+1][p.getJ()+1].repaint();
+                             initFlag[p.getI() + 1][p.getJ() + 1] = false;
                              } else if ((currRow - p.getI())==2 && (currCol - p.getJ())==-2){
                              Piece opponent = (Piece)Tiles[p.getI()+1][p.getJ()-1].getComponent(0);
                              Tiles[p.getI()+1][p.getJ()-1].remove(opponent);
                              Tiles[p.getI()+1][p.getJ()-1].repaint();
+                             initFlag[p.getI() + 1][p.getJ() - 1] = false;
+                             } else if ((currRow - p.getI())==-2 && (currCol - p.getJ())==-2){
+                             Piece opponent = (Piece)Tiles[p.getI()-1][p.getJ()-1].getComponent(0);
+                             Tiles[p.getI() - 1][p.getJ() - 1].remove(opponent);
+                             Tiles[p.getI() - 1][p.getJ() - 1].repaint();
+                             initFlag[p.getI() - 1][p.getJ() - 1] = false;
+                             } else if ((currRow - p.getI())==-2 && (currCol - p.getJ())==2){
+                             Piece opponent = (Piece)Tiles[p.getI()-1][p.getJ()+1].getComponent(0);
+                             Tiles[p.getI() - 1][p.getJ() + 1].remove(opponent);
+                             Tiles[p.getI() - 1][p.getJ() + 1].repaint();
+                             initFlag[p.getI() - 1][p.getJ() + 1] = false;
                              }
                             System.out.println("Current piece is : " + 
                                     i);
@@ -212,15 +225,28 @@ public class Board extends JFrame
                             if(p.isValidMove(currRow, currCol)) {
                              Tiles[p.getI()][p.getJ()].remove(p);
                              Tiles[p.getI()][p.getJ()].repaint();
+                             initFlag[p.getI()][p.getJ()] = false;
                              
                              if ((currRow - p.getI())==-2 && (currCol - p.getJ())==2){
                              Piece opponent = (Piece)Tiles[p.getI()-1][p.getJ()+1].getComponent(0);
                              Tiles[p.getI()-1][p.getJ()+1].remove(opponent);
                              Tiles[p.getI()-1][p.getJ()+1].repaint();
+                             initFlag[p.getI() - 1][p.getJ() + 1] = false;
                              } else if ((currRow - p.getI())==-2 && (currCol - p.getJ())==-2){
                              Piece opponent = (Piece)Tiles[p.getI()-1][p.getJ()-1].getComponent(0);
                              Tiles[p.getI()-1][p.getJ()-1].remove(opponent);
                              Tiles[p.getI()-1][p.getJ()-1].repaint();
+                             initFlag[p.getI() - 1][p.getJ() - 1] = false;
+                             } else if ((currRow - p.getI())==2 && (currCol - p.getJ())==2){
+                             Piece opponent = (Piece)Tiles[p.getI() + 1][p.getJ() + 1].getComponent(0);
+                             Tiles[p.getI() + 1][p.getJ() + 1].remove(opponent);
+                             Tiles[p.getI() + 1][p.getJ() + 1].repaint();
+                             initFlag[p.getI() + 1][p.getJ() + 1] = false;
+                             } else if ((currRow - p.getI())==2 && (currCol - p.getJ())==-2){
+                             Piece opponent = (Piece)Tiles[p.getI() + 1][p.getJ()-1].getComponent(0);
+                             Tiles[p.getI()+1][p.getJ()-1].remove(opponent);
+                             Tiles[p.getI()+1][p.getJ()-1].repaint();
+                             initFlag[p.getI() + 1][p.getJ() - 1] = false;
                              }
                              
                             System.out.println("Current piece is : " + 
