@@ -21,6 +21,8 @@ public class Piece extends JLabel{
     private boolean white = false;
     private Piece p;
     public boolean canMoveMultipleTimes = false;
+    private boolean availMoves[][] = new boolean[8][8];
+    private Board board;
 
     public void setSelected(boolean selected) {
         this.selected = selected;
@@ -54,7 +56,8 @@ public class Piece extends JLabel{
         return j;
     }
 
-    public Piece(int i , int j, boolean isWhite) {
+    public Piece(int i , int j, boolean isWhite, Board b) {
+        board = b;
         this.i = i;
         this.j = j;
         this.white = isWhite;
@@ -79,8 +82,13 @@ public class Piece extends JLabel{
                         return;
                     }
                 }
-                
+                if(isWhite && !board.playerTurn) {
+                    return;
+                } else if(!isWhite && board.playerTurn) {
+                    return;
+                }
                 selected = true;
+                board.lightBoard(p);
                 for (int i=0;i<12 ; i++){
                     if (Board.RedChecker[i] != p && Board.RedChecker[i].selected == true){
                         Board.RedChecker[i].selected = false;
@@ -114,30 +122,50 @@ public class Piece extends JLabel{
         
         if(!white) {        //red checker
             if(newI == i + 1 && newJ == j - 1) {
-                return true;
+                if(!Board.initFlag[i + 1][j - 1]) {
+                    return true;
+                }
             } else if(newI == i + 1 && newJ == j + 1) {
-                return true;
+                if(!Board.initFlag[i + 1][j + 1]) {
+                    return true;
+                }
             } else if(newI == i + 2 && newJ == j - 2) {
                 if(Board.initFlag[i + 1][j - 1] && !Board.initFlag[i + 2][j - 2]) {
-                    return true;
+                    Piece opp = (Piece)board.Tiles[i + 1][j - 1].getComponent(0);
+                    if(opp.white) {
+                        return true;
+                    }
                 }
             } else if(newI == i + 2 && newJ == j + 2) {
                 if(Board.initFlag[i + 1][j + 1] && !Board.initFlag[i + 2][j + 2]) {
-                    return true;
+                    Piece opp = (Piece)board.Tiles[i + 1][j + 1].getComponent(0);
+                    if(opp.white) {
+                        return true;
+                    }
                 }
             }
         } else {            //white checker
             if(newI == i - 1 && newJ == j - 1) {
-                return true;
+                if(!Board.initFlag[i - 1][j - 1]) {
+                    return true;
+                }
             } else if(newI == i - 1 && newJ == j + 1) {
-                return true;
+                if(!Board.initFlag[i - 1][j + 1]) {
+                    return true;
+                }
             } else if(newI == i - 2 && newJ == j - 2) {
                 if(Board.initFlag[i - 1][j - 1] && !Board.initFlag[i - 2][j - 2]) {
-                    return true;
+                    Piece opp = (Piece)board.Tiles[i - 1][j - 1].getComponent(0);
+                    if(!opp.white) {
+                        return true;
+                    }
                 }
             } else if(newI == i - 2 && newJ == j + 2) {
                 if(Board.initFlag[i - 1][j + 1] && !Board.initFlag[i - 2][j + 2]) {
-                    return true;
+                    Piece opp = (Piece)board.Tiles[i - 1][j + 1].getComponent(0);
+                    if(!opp.white) {
+                        return true;
+                    }
                 }
             }
         }
@@ -145,31 +173,51 @@ public class Piece extends JLabel{
         //Red Crown
         if(crowned && !white) {
             if(newI == i - 1 && newJ == j - 1) {
-                return true;
+                if(!Board.initFlag[i - 1][j - 1]) {
+                    return true;
+                }
             } else if(newI == i - 1 && newJ == j + 1) {
-                return true;
+                if(!Board.initFlag[i - 1][j + 1]) {
+                    return true;
+                }
             } else if(newI == i - 2 && newJ == j - 2) {
                 if(Board.initFlag[i - 1][j - 1] && !Board.initFlag[i - 2][j - 2]) {
-                    return true;
+                    Piece opp = (Piece)board.Tiles[i - 1][j - 1].getComponent(0);
+                    if(opp.white) {
+                        return true;
+                    }
                 }
             } else if(newI == i - 2 && newJ == j + 2) {
                 if(Board.initFlag[i - 1][j + 1] && !Board.initFlag[i - 2][j + 2]) {
-                    return true;
+                    Piece opp = (Piece)board.Tiles[i - 1][j + 1].getComponent(0);
+                    if(opp.white) {
+                        return true;
+                    }
                 }
             }
             
         } else if(crowned && white) {
             if(newI == i + 1 && newJ == j - 1) {
-                return true;
+                if(!Board.initFlag[i + 1][j - 1]) {
+                    return true;
+                }
             } else if(newI == i + 1 && newJ == j + 1) {
-                return true;
+                if(!Board.initFlag[i + 1][j + 1]) {
+                    return true;
+                }
             } else if(newI == i + 2 && newJ == j - 2) {
                 if(Board.initFlag[i + 1][j - 1] && !Board.initFlag[i + 2][j - 2]) {
-                    return true;
+                    Piece opp = (Piece)board.Tiles[i + 1][j - 1].getComponent(0);
+                    if(!opp.white) {
+                        return true;
+                    }
                 }
             } else if(newI == i + 2 && newJ == j + 2) {
                 if(Board.initFlag[i + 1][j + 1] && !Board.initFlag[i + 2][j + 2]) {
-                    return true;
+                    Piece opp = (Piece)board.Tiles[i + 1][j + 1].getComponent(0);
+                    if(!opp.white) {
+                        return true;
+                    }
                 }
             }
         }
@@ -189,5 +237,67 @@ public class Piece extends JLabel{
         {
             crowned = true;
         }
+        
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 8; j++) {
+                availMoves[i][j] = false;
+            }
+        }
+        board.dimBoard();
+    }
+    
+    public boolean[][] getAvailMoves() {
+        if(this.canMoveMultipleTimes) {
+            if(isValidMove(i + 2, j + 2)) {
+            availMoves[i + 2][j + 2] = true;
+            }
+            
+            if(isValidMove(i + 2, j - 2)) {
+                availMoves[i + 2][j - 2] = true;
+            }
+            
+            if(isValidMove(i - 2, j + 2)) {
+                availMoves[i - 2][j + 2] = true;
+            }
+            
+            if(isValidMove(i - 2, j - 2)) {
+                availMoves[i - 2][j - 2] = true;
+            }
+            return availMoves;
+        }
+        
+        if(isValidMove(i + 1, j + 1)) {
+            availMoves[i + 1][j + 1] = true;
+        }
+        
+        if(isValidMove(i + 1, j - 1)) {
+            availMoves[i + 1][j - 1] = true;
+        }
+        
+        if(isValidMove(i - 1, j + 1)) {
+            availMoves[i - 1][j + 1] = true;
+        }
+        
+        if(isValidMove(i - 1, j - 1)) {
+            availMoves[i - 1][j - 1] = true;
+        }
+        
+        if(isValidMove(i + 2, j + 2)) {
+            availMoves[i + 2][j + 2] = true;
+        }
+        
+        if(isValidMove(i + 2, j - 2)) {
+            availMoves[i + 2][j - 2] = true;
+        }
+        
+        if(isValidMove(i - 2, j + 2)) {
+            availMoves[i - 2][j + 2] = true;
+        }
+        
+        if(isValidMove(i - 2, j - 2)) {
+            availMoves[i - 2][j - 2] = true;
+        }
+        
+        return availMoves;
     }
 }

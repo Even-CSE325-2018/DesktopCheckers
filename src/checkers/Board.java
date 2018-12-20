@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 
 public class Board extends JFrame
 {
-   private static JPanel[][] Tiles = new JPanel[8][8] ; 
+    Tile[][] Tiles = new Tile[8][8] ; 
    private JPanel test = new JPanel() ; 
    private JPanel test2 = new JPanel() ; 
    private JPanel Data = new JPanel() ;
@@ -35,7 +35,7 @@ public class Board extends JFrame
    private ImageIcon RedIcon ;
    private ImageIcon WhiteIcon ;
    static boolean[][] initFlag = new boolean[8][8] ; // Array of boolean for each pannel to see if it has a checker or no 
-    private boolean playerTurn = false;
+   boolean playerTurn = false;
     
     public Board() 
     {
@@ -63,7 +63,7 @@ public class Board extends JFrame
         {
             for (int j = 0; j < 8; j++) 
             {
-                Tiles[i][j] = new JPanel();
+                Tiles[i][j] = new Tile(Color.WHITE);
                 Tiles[i][j].setBounds(j * 80, i * 80, 80, 80);
                 Tiles[i][j].setBorder(BorderFactory.createLineBorder(Color.black));
                 Tiles[i][j].setBackground(Color.WHITE); // initially all pannels have white backgroud color
@@ -74,6 +74,7 @@ public class Board extends JFrame
         } 
         for (int i = 0, j = 1; j < 8; i += 2){
              Tiles[j][i].setBackground(Color.BLACK);
+             Tiles[j][i].bkColor = Color.BLACK;
             if ((i + 2) % 8 == 0){
                 j += 2;
                 i = -2;
@@ -81,6 +82,7 @@ public class Board extends JFrame
         }
          for (int i = 1, j = 0; j < 8; i += 2){
             Tiles[j][i].setBackground(Color.BLACK);
+            Tiles[j][i].bkColor = Color.BLACK;
             if ((i + 1) % 8 == 0){
                 j += 2;
                 i = -1;
@@ -98,7 +100,7 @@ public class Board extends JFrame
                     j+=1 ; 
                 }
                 
-                RedChecker[pieceCounter] = new Piece(i,j, false);
+                RedChecker[pieceCounter] = new Piece(i,j, false, this);
                 Piece p = (Piece) RedChecker[pieceCounter];
                 // Resizing the Buffred image to fit into the pannel 
                 Image scaledImage = Redimg.getScaledInstance(Tiles[i][j].getWidth(),Tiles[i][j].getHeight(),Image.SCALE_SMOOTH);
@@ -123,7 +125,7 @@ public class Board extends JFrame
                 {
                     j+=1 ; 
                 }
-                WhiteChecker[pieceCounter] = new Piece(i,j, true);
+                WhiteChecker[pieceCounter] = new Piece(i,j, true, this);
                 Image scaledImage = Whiteimg.getScaledInstance(Tiles[i][j].getWidth(),Tiles[i][j].getHeight(),Image.SCALE_SMOOTH);
                 WhiteIcon = new ImageIcon(scaledImage) ;
                 WhiteChecker[pieceCounter].setIcon(WhiteIcon);
@@ -281,6 +283,7 @@ public class Board extends JFrame
                 p1.setText("Player 2");
             }
         } else {
+            lightBoard(p);
             p.setIcon(RedIcon);
             Tiles[currRow][currCol].add(p);
             Tiles[currRow][currCol].repaint();
@@ -342,7 +345,7 @@ public class Board extends JFrame
                 p1.setText("Player 2");
             }
         } else {
-            
+            lightBoard(p);
             p.setIcon(WhiteIcon);
             Tiles[currRow][currCol].add(p);
             Tiles[currRow][currCol].repaint();
@@ -362,5 +365,29 @@ public class Board extends JFrame
         }
         p.canMoveMultipleTimes = false;
         return false;
+    }
+    
+    public void lightBoard(Piece p) {
+        dimBoard();
+        boolean[][] availMoves = p.getAvailMoves();
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 8; j++) {
+                if(availMoves[i][j]) {
+                    Tiles[i][j].setBackground(Color.GREEN);
+                }
+            }
+        }
+    }
+    
+    public void dimBoard() {
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 8; j++) {
+                if(Tiles[i][j].bkColor.equals(Color.BLACK)) {
+                    Tiles[i][j].setBackground(Color.BLACK);
+                } else {
+                    Tiles[i][j].setBackground(Color.WHITE);
+                }
+            }
+        }
     }
 }
