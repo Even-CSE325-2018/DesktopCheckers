@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 
 public class Board extends JFrame
 {
-   private JPanel[][] Tiles = new JPanel[8][8] ; 
+   private static JPanel[][] Tiles = new JPanel[8][8] ; 
    private JPanel test = new JPanel() ; 
    private JPanel test2 = new JPanel() ; 
    private JPanel Data = new JPanel() ;
@@ -35,7 +35,7 @@ public class Board extends JFrame
    private ImageIcon RedIcon ;
    private ImageIcon WhiteIcon ;
    static boolean[][] initFlag = new boolean[8][8] ; // Array of boolean for each pannel to see if it has a checker or no 
-    private int playerTurn = 0;
+    private boolean playerTurn = false;
     
     public Board() 
     {
@@ -155,7 +155,7 @@ public class Board extends JFrame
                 public void mouseClicked(MouseEvent e) {
                     System.out.println("I'm in mouseClicked at panel : " + 
                             currRow + " " + currCol);
-                    if(playerTurn == 0){
+                    if(playerTurn == false){ //Red
                     for(int i = 0; i < 12; i++) {
                         Piece p = (Piece) RedChecker[i];
 //                        System.out.println("piece : " + i + " at : " + p.i 
@@ -166,32 +166,8 @@ public class Board extends JFrame
                         }
                         if(p.isSelected()) {
                             if(p.isValidMove(currRow, currCol)) {
-                             Tiles[p.getI()][p.getJ()].remove(p);
-                             Tiles[p.getI()][p.getJ()].repaint();
-                             initFlag[p.getI()][p.getJ()] = false;
-                             
-                             if ((currRow - p.getI())==2 && (currCol - p.getJ())==2){
-                             Piece opponent = (Piece)Tiles[p.getI()+1][p.getJ()+1].getComponent(0);
-                             Tiles[p.getI()+1][p.getJ()+1].remove(opponent);
-                             Tiles[p.getI()+1][p.getJ()+1].repaint();
-                             initFlag[p.getI() + 1][p.getJ() + 1] = false;
-                             } else if ((currRow - p.getI())==2 && (currCol - p.getJ())==-2){
-                             Piece opponent = (Piece)Tiles[p.getI()+1][p.getJ()-1].getComponent(0);
-                             Tiles[p.getI()+1][p.getJ()-1].remove(opponent);
-                             Tiles[p.getI()+1][p.getJ()-1].repaint();
-                             initFlag[p.getI() + 1][p.getJ() - 1] = false;
-                             } else if ((currRow - p.getI())==-2 && (currCol - p.getJ())==-2){
-                             Piece opponent = (Piece)Tiles[p.getI()-1][p.getJ()-1].getComponent(0);
-                             Tiles[p.getI() - 1][p.getJ() - 1].remove(opponent);
-                             Tiles[p.getI() - 1][p.getJ() - 1].repaint();
-                             initFlag[p.getI() - 1][p.getJ() - 1] = false;
-                             } else if ((currRow - p.getI())==-2 && (currCol - p.getJ())==2){
-                             Piece opponent = (Piece)Tiles[p.getI()-1][p.getJ()+1].getComponent(0);
-                             Tiles[p.getI() - 1][p.getJ() + 1].remove(opponent);
-                             Tiles[p.getI() - 1][p.getJ() + 1].repaint();
-                             initFlag[p.getI() - 1][p.getJ() + 1] = false;
-                             }
-                            System.out.println("Current piece is : " + 
+                                moveAndUpdateRedCheckers(p, currRow, currCol);
+                            /*System.out.println("Current piece is : " + 
                                     i);
                                 System.out.println("Valid");
                                 p.movePiece(currRow, currCol);
@@ -205,8 +181,7 @@ public class Board extends JFrame
                                 
                                 
                                 initFlag[currRow][currCol]  = true;
-                                playerTurn = 1;
-                                p1.setText("PLAYER 2");
+                                //p1.setText("PLAYER 2");*/
                                 break;
                             } else {
                                 
@@ -223,46 +198,7 @@ public class Board extends JFrame
                         }
                         if(p.isSelected()) {
                             if(p.isValidMove(currRow, currCol)) {
-                             Tiles[p.getI()][p.getJ()].remove(p);
-                             Tiles[p.getI()][p.getJ()].repaint();
-                             initFlag[p.getI()][p.getJ()] = false;
-                             
-                             if ((currRow - p.getI())==-2 && (currCol - p.getJ())==2){
-                             Piece opponent = (Piece)Tiles[p.getI()-1][p.getJ()+1].getComponent(0);
-                             Tiles[p.getI()-1][p.getJ()+1].remove(opponent);
-                             Tiles[p.getI()-1][p.getJ()+1].repaint();
-                             initFlag[p.getI() - 1][p.getJ() + 1] = false;
-                             } else if ((currRow - p.getI())==-2 && (currCol - p.getJ())==-2){
-                             Piece opponent = (Piece)Tiles[p.getI()-1][p.getJ()-1].getComponent(0);
-                             Tiles[p.getI()-1][p.getJ()-1].remove(opponent);
-                             Tiles[p.getI()-1][p.getJ()-1].repaint();
-                             initFlag[p.getI() - 1][p.getJ() - 1] = false;
-                             } else if ((currRow - p.getI())==2 && (currCol - p.getJ())==2){
-                             Piece opponent = (Piece)Tiles[p.getI() + 1][p.getJ() + 1].getComponent(0);
-                             Tiles[p.getI() + 1][p.getJ() + 1].remove(opponent);
-                             Tiles[p.getI() + 1][p.getJ() + 1].repaint();
-                             initFlag[p.getI() + 1][p.getJ() + 1] = false;
-                             } else if ((currRow - p.getI())==2 && (currCol - p.getJ())==-2){
-                             Piece opponent = (Piece)Tiles[p.getI() + 1][p.getJ()-1].getComponent(0);
-                             Tiles[p.getI()+1][p.getJ()-1].remove(opponent);
-                             Tiles[p.getI()+1][p.getJ()-1].repaint();
-                             initFlag[p.getI() + 1][p.getJ() - 1] = false;
-                             }
-                             
-                            System.out.println("Current piece is : " + 
-                                    i);
-                                System.out.println("Valid");
-                                p.movePiece(currRow, currCol);
-                                
-                                System.out.println("Piece selected val : " + 
-                                        p.isSelected());
-                                WhiteChecker[i].setIcon(WhiteIcon);
-                                Tiles[currRow][currCol].add(WhiteChecker[i]);
-                                Tiles[currRow][currCol].repaint();
-                               
-                                initFlag[currRow][currCol]  = true;
-                                playerTurn = 0;
-                                p1.setText("PLAYER 1");
+                                moveAndUpdateWhiteCheckers(p, currRow, currCol);
                                 break;
                             }
                         }
@@ -292,4 +228,139 @@ public class Board extends JFrame
         
     }
     
+    public void moveAndUpdateRedCheckers(Piece p, int currRow, int currCol) {
+        Tiles[p.getI()][p.getJ()].remove(p);
+        Tiles[p.getI()][p.getJ()].repaint();
+        initFlag[p.getI()][p.getJ()] = false;
+
+        if ((currRow - p.getI())==2 && (currCol - p.getJ())==2){
+            
+            Piece opponent = (Piece)Tiles[p.getI()+1][p.getJ()+1].getComponent(0);
+            Tiles[p.getI()+1][p.getJ()+1].remove(opponent);
+            Tiles[p.getI()+1][p.getJ()+1].repaint();
+            initFlag[p.getI() + 1][p.getJ() + 1] = false;
+            p.movePiece(currRow, currCol);
+            
+        } else if ((currRow - p.getI())==2 && (currCol - p.getJ())==-2){
+            
+            Piece opponent = (Piece)Tiles[p.getI()+1][p.getJ()-1].getComponent(0);
+            Tiles[p.getI()+1][p.getJ()-1].remove(opponent);
+            Tiles[p.getI()+1][p.getJ()-1].repaint();
+            initFlag[p.getI() + 1][p.getJ() - 1] = false;
+            
+        } else if ((currRow - p.getI())==-2 && (currCol - p.getJ())==-2){
+            
+            Piece opponent = (Piece)Tiles[p.getI()-1][p.getJ()-1].getComponent(0);
+            Tiles[p.getI() - 1][p.getJ() - 1].remove(opponent);
+            Tiles[p.getI() - 1][p.getJ() - 1].repaint();
+            initFlag[p.getI() - 1][p.getJ() - 1] = false;
+            p.movePiece(currRow, currCol);
+            
+        } else if ((currRow - p.getI())==-2 && (currCol - p.getJ())==2){
+            
+            Piece opponent = (Piece)Tiles[p.getI()-1][p.getJ()+1].getComponent(0);
+            Tiles[p.getI() - 1][p.getJ() + 1].remove(opponent);
+            Tiles[p.getI() - 1][p.getJ() + 1].repaint();
+            initFlag[p.getI() - 1][p.getJ() + 1] = false;
+            p.movePiece(currRow, currCol);
+            
+        }
+        
+        if((Math.abs(currRow - p.getI()) == 1) || !(checkMultipleTurns(p,
+                currRow, currCol))) {
+            playerTurn = !(playerTurn);
+            p.movePiece(currRow, currCol);
+            p.setIcon(RedIcon);
+            Tiles[currRow][currCol].add(p);
+            Tiles[currRow][currCol].repaint();
+
+            initFlag[currRow][currCol]  = true;
+            if(playerTurn == false) {
+                p1.setText("Player 1");
+            } else {
+                p1.setText("Player 2");
+            }
+        } else {
+            p.setIcon(RedIcon);
+            Tiles[currRow][currCol].add(p);
+            Tiles[currRow][currCol].repaint();
+
+            initFlag[currRow][currCol]  = true;
+        }
+    }
+    
+    public void moveAndUpdateWhiteCheckers(Piece p, int currRow, int currCol) {
+        Tiles[p.getI()][p.getJ()].remove(p);
+        Tiles[p.getI()][p.getJ()].repaint();
+        initFlag[p.getI()][p.getJ()] = false;
+
+        if ((currRow - p.getI())==-2 && (currCol - p.getJ())==2) {
+            
+            Piece opponent = (Piece)Tiles[p.getI()-1][p.getJ()+1].getComponent(0);
+            Tiles[p.getI()-1][p.getJ()+1].remove(opponent);
+            Tiles[p.getI()-1][p.getJ()+1].repaint();
+            initFlag[p.getI() - 1][p.getJ() + 1] = false;
+            p.movePiece(currRow, currCol);
+            
+        } else if ((currRow - p.getI())==-2 && (currCol - p.getJ())==-2) {
+            
+            Piece opponent = (Piece)Tiles[p.getI()-1][p.getJ()-1].getComponent(0);
+            Tiles[p.getI()-1][p.getJ()-1].remove(opponent);
+            Tiles[p.getI()-1][p.getJ()-1].repaint();
+            initFlag[p.getI() - 1][p.getJ() - 1] = false;
+            p.movePiece(currRow, currCol);
+            
+        } else if ((currRow - p.getI())==2 && (currCol - p.getJ())==2) {
+            
+            Piece opponent = (Piece)Tiles[p.getI() + 1][p.getJ() + 1].getComponent(0);
+            Tiles[p.getI() + 1][p.getJ() + 1].remove(opponent);
+            Tiles[p.getI() + 1][p.getJ() + 1].repaint();
+            initFlag[p.getI() + 1][p.getJ() + 1] = false;
+            p.movePiece(currRow, currCol);
+            
+        } else if ((currRow - p.getI())==2 && (currCol - p.getJ())==-2) {
+            
+            Piece opponent = (Piece)Tiles[p.getI() + 1][p.getJ()-1].getComponent(0);
+            Tiles[p.getI()+1][p.getJ()-1].remove(opponent);
+            Tiles[p.getI()+1][p.getJ()-1].repaint();
+            initFlag[p.getI() + 1][p.getJ() - 1] = false;
+            p.movePiece(currRow, currCol);
+        }
+        
+        if((Math.abs(currRow - p.getI()) == 1) || !(checkMultipleTurns(p,
+                currRow, currCol))) {
+            playerTurn = !(playerTurn);
+            p.movePiece(currRow, currCol);
+            p.setIcon(WhiteIcon);
+            Tiles[currRow][currCol].add(p);
+            Tiles[currRow][currCol].repaint();
+
+            initFlag[currRow][currCol]  = true;
+            if(playerTurn == false) {
+                p1.setText("Player 1");
+            } else {
+                p1.setText("Player 2");
+            }
+        } else {
+            
+            p.setIcon(WhiteIcon);
+            Tiles[currRow][currCol].add(p);
+            Tiles[currRow][currCol].repaint();
+
+            initFlag[currRow][currCol]  = true;
+        }
+    }
+    
+    public boolean checkMultipleTurns(Piece p, int currRow, int currCol) {
+        System.out.println("Fe multi turns fn");
+        if(p.isValidMove(currRow + 2, currCol + 2) || 
+                p.isValidMove(currRow + 2, currCol - 2) ||
+                p.isValidMove(currRow - 2, currCol + 2) ||
+                p.isValidMove(currRow - 2, currCol - 2)) {
+            p.canMoveMultipleTimes = true;
+            return true;
+        }
+        p.canMoveMultipleTimes = false;
+        return false;
+    }
 }

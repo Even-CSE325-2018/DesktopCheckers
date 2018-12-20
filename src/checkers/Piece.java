@@ -20,6 +20,7 @@ public class Piece extends JLabel{
     private int j;
     private boolean white = false;
     private Piece p;
+    public boolean canMoveMultipleTimes = false;
 
     public void setSelected(boolean selected) {
         this.selected = selected;
@@ -65,9 +66,21 @@ public class Piece extends JLabel{
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent me) {
                 System.out.println("selected :-");
-                selected = true;
                 System.out.println(selected);
                 System.out.println("fel listener ba2a : " + row + ", " + col);
+                for(int i = 0; i < 12; i++) {
+                    if(Board.RedChecker[i].canMoveMultipleTimes) {
+                        Board.RedChecker[i].selected = true;
+                        return;
+                    }
+                    
+                    if(Board.WhiteChecker[i].canMoveMultipleTimes) {
+                        Board.WhiteChecker[i].selected = true;
+                        return;
+                    }
+                }
+                
+                selected = true;
                 for (int i=0;i<12 ; i++){
                     if (Board.RedChecker[i] != p && Board.RedChecker[i].selected == true){
                         Board.RedChecker[i].selected = false;
@@ -95,17 +108,21 @@ public class Piece extends JLabel{
             return true;
         }*/
         
+        if(newI >= 8 || newI < 0 || newJ >= 8 || newJ < 0) {
+            return false;
+        }
+        
         if(!white) {        //red checker
             if(newI == i + 1 && newJ == j - 1) {
                 return true;
             } else if(newI == i + 1 && newJ == j + 1) {
                 return true;
             } else if(newI == i + 2 && newJ == j - 2) {
-                if(Board.initFlag[i + 1][j - 1]) {
+                if(Board.initFlag[i + 1][j - 1] && !Board.initFlag[i + 2][j - 2]) {
                     return true;
                 }
             } else if(newI == i + 2 && newJ == j + 2) {
-                if(Board.initFlag[i + 1][j + 1]) {
+                if(Board.initFlag[i + 1][j + 1] && !Board.initFlag[i + 2][j + 2]) {
                     return true;
                 }
             }
@@ -115,11 +132,11 @@ public class Piece extends JLabel{
             } else if(newI == i - 1 && newJ == j + 1) {
                 return true;
             } else if(newI == i - 2 && newJ == j - 2) {
-                if(Board.initFlag[i - 1][j - 1]) {
+                if(Board.initFlag[i - 1][j - 1] && !Board.initFlag[i - 2][j - 2]) {
                     return true;
                 }
             } else if(newI == i - 2 && newJ == j + 2) {
-                if(Board.initFlag[i - 1][j + 1]) {
+                if(Board.initFlag[i - 1][j + 1] && !Board.initFlag[i - 2][j + 2]) {
                     return true;
                 }
             }
@@ -132,11 +149,11 @@ public class Piece extends JLabel{
             } else if(newI == i - 1 && newJ == j + 1) {
                 return true;
             } else if(newI == i - 2 && newJ == j - 2) {
-                if(Board.initFlag[i - 1][j - 1]) {
+                if(Board.initFlag[i - 1][j - 1] && !Board.initFlag[i - 2][j - 2]) {
                     return true;
                 }
             } else if(newI == i - 2 && newJ == j + 2) {
-                if(Board.initFlag[i - 1][j + 1]) {
+                if(Board.initFlag[i - 1][j + 1] && !Board.initFlag[i - 2][j + 2]) {
                     return true;
                 }
             }
@@ -147,11 +164,11 @@ public class Piece extends JLabel{
             } else if(newI == i + 1 && newJ == j + 1) {
                 return true;
             } else if(newI == i + 2 && newJ == j - 2) {
-                if(Board.initFlag[i + 1][j - 1]) {
+                if(Board.initFlag[i + 1][j - 1] && !Board.initFlag[i + 2][j - 2]) {
                     return true;
                 }
             } else if(newI == i + 2 && newJ == j + 2) {
-                if(Board.initFlag[i + 1][j + 1]) {
+                if(Board.initFlag[i + 1][j + 1] && !Board.initFlag[i + 2][j + 2]) {
                     return true;
                 }
             }
