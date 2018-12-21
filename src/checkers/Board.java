@@ -333,7 +333,15 @@ public class Board extends JFrame
             }
         } else {
             lightBoard(p);
-            p.setIcon(RedIcon);
+            if(p.isCrowned())
+            {
+                p.setIcon(RedCrownIcon);
+                System.out.println("feh Crown henaa ya3m ");
+            }
+            else
+            {
+                p.setIcon(RedIcon);
+            }
             Tiles[currRow][currCol].add(p);
             Tiles[currRow][currCol].repaint();
 
@@ -418,7 +426,15 @@ public class Board extends JFrame
             }
         } else {
             lightBoard(p);
-            p.setIcon(WhiteIcon);
+            if(p.isCrowned())
+            {
+                p.setIcon(WhiteCrownIcon);
+                System.out.println("feh Crown henaa ya3m ");
+            }
+            else
+            {
+                p.setIcon(WhiteIcon);
+            }
             Tiles[currRow][currCol].add(p);
             Tiles[currRow][currCol].repaint();
 
