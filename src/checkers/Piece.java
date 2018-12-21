@@ -263,6 +263,11 @@ public class Piece extends JLabel{
     }
     
     public boolean[][] getAvailMoves() {
+        for(int i = 0; i < 8; i++) {
+            for(int j = 0; j < 8; j++) {
+                availMoves[i][j] = false;
+            }
+        }
         if(this.canMoveMultipleTimes) {
             if(isValidMove(i + 2, j + 2)) {
             availMoves[i + 2][j + 2] = true;
