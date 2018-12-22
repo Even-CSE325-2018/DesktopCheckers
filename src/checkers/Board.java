@@ -286,6 +286,7 @@ public class Board extends JFrame
             Tiles[p.getI()+1][p.getJ()-1].repaint();
             whiteCheckerCount -- ; 
             initFlag[p.getI() + 1][p.getJ() - 1] = false;
+            p.movePiece(currRow, currCol);
             
         } else if ((currRow - p.getI())==-2 && (currCol - p.getJ())==-2){
             
